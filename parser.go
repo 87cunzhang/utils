@@ -15,7 +15,7 @@ var Confs map[string]config.Configer
 
 func init() {
 	Confs = make(map[string]config.Configer)
-	// 读取conf下所有文件
+	// 读取conf下所有文件.
 	files, err := ioutil.ReadDir("../conf")
 	if err != nil {
 		log.Fatal(err)
