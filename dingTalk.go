@@ -15,6 +15,9 @@ import (
 //发送钉钉消息
 func SendDingMsg(content string) string {
 	httpUrl := makeHttpUrl()
+	if len(httpUrl) == 0{
+		LogErr("miss dingTalk config",errors.New("缺少钉钉配置"))
+	}
 	postStr := "{\"msgtype\":\"text\",\"text\":{\"content\":\"" + content + "\"},\"at\":{\"atMobiles\":[]}}\n"
 	resp, _ := http.Post(httpUrl, "application/json;charset=utf-8", strings.NewReader(postStr))
 	result, _ := ioutil.ReadAll(resp.Body)
@@ -27,7 +30,6 @@ func makeHttpUrl() string {
 	webHook := conf.String("dingTalk::webHook")
 	secretKey := conf.String("dingTalk::secretKey")
 	if len(webHook) == 0 || len(secretKey) == 0{
-		LogErr("miss dingTalk config",errors.New("缺少钉钉配置"))
 		return ""
 	}
 	currTime := time.Now().UnixNano() / 1e6
