@@ -4,7 +4,6 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -12,16 +11,8 @@ import (
 	"time"
 )
 
-//var webHook, secretKey string
-
-//func InitDingTalkConf(webHookConf string, secretKeyConf string) {
-//	webHook = webHookConf
-//	secretKey = secretKeyConf
-//}
-
 //发送钉钉消息
 func SendDingMsg(content string) string {
-	fmt.Println("aaa")
 	httpUrl := makeHttpUrl()
 	postStr := "{\"msgtype\":\"text\",\"text\":{\"content\":\"" + content + "\"},\"at\":{\"atMobiles\":[]}}\n"
 	resp, _ := http.Post(httpUrl, "application/json;charset=utf-8", strings.NewReader(postStr))
