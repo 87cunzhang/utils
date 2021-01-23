@@ -17,6 +17,7 @@ func SendDingMsg(content string) string {
 	httpUrl := makeHttpUrl()
 	if len(httpUrl) == 0{
 		LogErr("miss dingTalk config",errors.New("缺少钉钉配置"))
+		return ""
 	}
 	postStr := "{\"msgtype\":\"text\",\"text\":{\"content\":\"" + content + "\"},\"at\":{\"atMobiles\":[]}}\n"
 	resp, _ := http.Post(httpUrl, "application/json;charset=utf-8", strings.NewReader(postStr))
