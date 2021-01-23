@@ -4,6 +4,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -25,6 +26,9 @@ func makeHttpUrl() string {
 	conf := DefaultConf()
 	webHook := conf.String("dingTalk::webHook")
 	secretKey := conf.String("dingTalk::secretKey")
+	if len(webHook) == 0 || len(secretKey) == 0{
+		LogErr("miss dingtalk config",errors.New("缺少钉钉配置"))
+	}
 	currTime := time.Now().UnixNano() / 1e6
 	httpUrl := webHook + "&timestamp=" + strconv.FormatInt(currTime, 10) + "&sign=" + computeSignature(currTime, secretKey)
 	return httpUrl
